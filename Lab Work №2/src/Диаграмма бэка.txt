@@ -1,0 +1,44 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Container.puml
+
+AddElementTag("microService", $shape=EightSidedShape(), $bgColor="CornflowerBlue", $fontColor="white", $legendText="micro service\neight sided")
+AddElementTag("storage", $shape=RoundedBoxShape(), $bgColor="lightSkyBlue", $fontColor="white")
+
+SHOW_PERSON_OUTLINE()
+
+Container(ifront, "Панель управления")
+ContainerDb(db, "База данных")
+ContainerDb(storage, "Хранилище изображений")
+
+Container_Ext(ufront, "Front-end пользовательского приложения")
+Container_Ext(uback, "Back-end пользовательского приложения")
+
+Boundary(back, "Back-end", "") {
+    Container(in_router, "Внутренний маршрутизатор", "", "End-point'ы, необходимые для работы front-end")
+    Container(out_router, "Внешний маршрутизатор", "", "End-point'ы для использования внешними приложениями")
+    Container(ctrl, "Контроллер", "", "Здесь описана логика работы end-point'ов")
+    Container(model, "Модели", "", "Данные из БД, преобразованные в удобный вид")
+    Container(img, "Модуль работы с изображениями", "", "Позволяет хранить и сжимать изображения")
+}
+
+Rel_D(storage, img, "Получение изображений")
+Rel_D(img, storage, "Сохранение/удаление изображений")
+
+BiRel(model, db, "SQL запросы для получения и изменения данных")
+
+BiRel(in_router, ifront, "Запросы на добавление изображений и изменение конфигураций")
+
+BiRel(out_router, uback, "Запросы на добавление изображений")
+BiRel(out_router, ufront, "Запросы на изменение конфигурации")
+
+BiRel(ctrl, in_router, "Вызов методов для соответствующих end-point'ов")
+BiRel(ctrl, out_router, "Вызов методов для соответствующих end-point'ов")
+BiRel(ctrl, model, "Взаимодействие с базой данных для сохранения и получения текстовой информации")
+
+Rel_D(ctrl, img, "Сохранение и сжатие изображения согласно конфигурации")
+
+
+SHOW_LEGEND()
+@enduml
