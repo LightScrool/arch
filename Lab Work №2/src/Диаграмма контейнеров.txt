@@ -1,0 +1,35 @@
+@startuml "messagebus"
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Container.puml
+
+SHOW_PERSON_OUTLINE()
+
+System_Boundary(c1, "Система сжатия изображения", "") {
+    Container(front, "Панель управления", "", "Позволяет настраивать сжатие в проектах")
+    Container(back, "Сервер", "", "Ответственен за обработку и передачу данных")
+    ContainerDb(storage, "Хранилище изображений", "", "Хранит оригинальные и сжатые изображения")
+    ContainerDb(db, "База данных", "", "Хранит конфигурации и информацию о пользователях")
+}
+
+System_Boundary(c2, "Пользовательское приложение", "") {
+    Container_Ext(ufront, "front-end")
+    Container_Ext(uback, "back-end")
+    Person(dev, Разработчик)
+}
+
+Rel_D(dev, front, "Загрузка изображения")
+Rel_D(front, back, "Передача загруженного изображения")
+
+Rel_D(dev, front, "Конфигурирование сжатия")
+Rel_D(front, back, "Запрос на применение конфигурации")
+Rel_D(back, db, "Сохранение конфигурации")
+
+Rel_D(back, storage, "Сохранение оригинальных и сжатых изображений")
+
+Rel_D(storage, ufront, "Получение изображений в нужном размере")
+Rel_D(uback, ufront, "Передача ссылки на изображение")
+Rel_D(uback, back, "Загрузка изображений")
+
+SHOW_LEGEND()
+@enduml

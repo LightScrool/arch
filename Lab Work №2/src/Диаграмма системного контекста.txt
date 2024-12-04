@@ -1,0 +1,18 @@
+@startuml "messagebus"
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Container.puml
+
+SHOW_PERSON_OUTLINE()
+
+Container(back, Бэкэнд пользовательского приложения, "Хранит сущности со ссылками на изображения")
+Container(front, Фронтэнд пользовательского приложения, "Добавляет нужный суффикс в ссылки на изображения")
+Container(press, Система сжатия изображений)
+Person(admin, Разработчик пользовательского приложения)
+
+Rel_D(admin, press, "Настраивает конфигурацию сжатия")
+Rel_D(back, front, "Ссылка на изображение")
+Rel_D(press, front, "Изображение нужного размера")
+
+SHOW_LEGEND()
+@enduml
