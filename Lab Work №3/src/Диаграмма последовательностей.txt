@@ -1,0 +1,88 @@
+@startuml
+
+actor "Разработчик пользовательского приложения" as userAdmin
+participant "Front-end пользовательского приложения" as userFront
+participant "Back-end  пользовательского приложения" as userBack
+
+participant "Панель управления" as front
+participant "Back-end" as back
+participant "База данных" as db
+participant "Хранилище изображений" as s3
+
+userAdmin -> front: Настройка конфигураций сжатия
+activate userAdmin
+activate front
+
+front-> back: Новые конфигурации
+activate back
+
+back -> db: Сохранение конфигураций
+activate db
+
+db --> back: Успешное сохранение
+deactivate db
+
+back --> front: Статус код 200
+
+back -> s3: Запрос оригиналов изображений
+activate s3
+
+s3 --> back: Получение оригиналов изображений
+deactivate s3
+
+back -> back: Сжатие изображений
+
+back -> s3: Сохранение новых изображений
+activate s3
+
+s3 --> back: Сохранение успешно
+deactivate s3
+
+deactivate back
+
+front --> userAdmin: Конфигурация завершена
+deactivate front
+
+deactivate userAdmin
+
+
+
+userBack -> back: Загрузка оригинала изображения
+activate userBack
+activate back
+
+back -> back: Сжатие изображения
+
+back -> s3: Сохранение новых изображений
+activate s3
+
+s3 --> back: Сохранение успешно
+deactivate s3
+
+back --> userBack: Ссылка на изображения
+deactivate back
+
+userBack -> userBack: Сохранение ссылок
+
+deactivate userBack
+
+
+
+userFront -> userBack: Запрос за данными
+activate userFront
+activate userBack
+
+userBack --> userFront: Ссылки на картинки
+deactivate userBack
+
+userFront -> userFront: Добавление алиаса конфигурации в ссылку
+
+userFront -> s3: Запрос сжатого изображения
+activate s3
+
+s3 --> userFront: Получение сжатого изображения
+deactivate s3
+
+deactivate userFront
+
+@enduml
