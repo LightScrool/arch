@@ -1,0 +1,43 @@
+@startuml
+
+class User {
+  +id: int (primary key)
+  -yandexId: int
+  -name: string
+  +projectsLimit: int
+}
+
+class Project {
+  +alias: string (primary key)
+  +name: string
+  -description: string
+  +configsLimit: int
+  +imagesLimit: int
+  +apiKey: string
+}
+
+class Config {
+  +alias: string + projext.alias (primary key)
+  +name: string
+  -description: string
+  +size: int
+  +isHorizontal: boolean
+}
+
+class Image {
+  +id: int (primary key)
+  +link: string
+}
+
+class CroppedImage {
+  +link: string
+  +config.alias + image.id (primary key)
+}
+
+User "1" -- "*" Project: Owns
+Project "1" -- "*" Config: Owns
+Project "1" -- "*" Image: Has
+Image "1" -- "*" CroppedImage: Has
+Config"1" -- "*" CroppedImage: Has
+
+@enduml
