@@ -1,0 +1,33 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Container.puml
+
+SHOW_PERSON_OUTLINE()
+
+Boundary(c1, "Система сжатия изображения", "") {
+    Container(front, "Панель управления", "", "Front-end приложение для настройки проекта и загрузки изображений")
+    Container(back, "Back-end", "", "Ответственен за сжатие изображений, обработку и передачу данных")
+    ContainerDb(storage, "Хранилище изображений", "", "Хранит оригинальные и сжатые изображения")
+    ContainerDb(db, "База данных", "", "Хранит конфигурации сжатия, информацию о проектах и пользователях")
+}
+
+Container_Ext(ufront, "Front-end пользовательского приложения")
+Container_Ext(uback, "Back-end пользовательского приложения")
+Person_Ext(dev, "Разработчик пользовательского приложения")
+
+Rel_D(dev, front, "Загрузка изображения")
+Rel_D(front, back, "Передача загруженного изображения")
+
+Rel_D(dev, front, "Конфигурирование сжатия")
+Rel_D(front, back, "Запрос на применение конфигурации")
+Rel_D(back, db, "Сохранение конфигурации")
+
+Rel_D(back, storage, "Сохранение оригинальных и сжатых изображений")
+
+Rel_D(storage, ufront, "Получение изображений в нужном размере")
+Rel_D(uback, ufront, "Передача ссылки на изображение")
+Rel_D(uback, back, "Загрузка изображений")
+
+SHOW_LEGEND()
+@enduml

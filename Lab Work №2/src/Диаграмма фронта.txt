@@ -1,0 +1,26 @@
+@startuml "messagebus"
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Container.puml
+
+AddElementTag("microService", $shape=EightSidedShape(), $bgColor="CornflowerBlue", $fontColor="white", $legendText="micro service\neight sided")
+AddElementTag("storage", $shape=RoundedBoxShape(), $bgColor="lightSkyBlue", $fontColor="white")
+
+SHOW_PERSON_OUTLINE()
+
+Person_Ext(user, Разработчик пользовательского приложения)
+Container(back, "Back-end", "", "Ответственен за сжатие изображений, обработку и передачу данных")
+
+Boundary(c, "Панель управления", "") {
+    Container(react, "React", "", "Основная часть приложения")
+    Container(api, "API Module", "", "Модуль для коммуникации с back-end")
+    Container(txt, "Texts", "", "Здесь хранятся все статические тексты, в будущем, возможно добавление переводов")
+}
+
+BiRel(react, api, "Вызов асинхронных функций для общения с back-end")
+BiRel(back, api, "Передача информации и изображений")
+Rel_D(txt, react, Тексты для отображения на странице)
+BiRel(react, user, "Взаимодействие с системой")
+
+SHOW_LEGEND()
+@enduml
