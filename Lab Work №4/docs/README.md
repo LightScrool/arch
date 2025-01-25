@@ -22,10 +22,10 @@ path: `/api/inner/v1/user`
 
 response:
 ```ts
-type Response = Array<{
+type Response = {
     name: string;
     avatar?: url;
-}>
+}
 ```
 
 errors:
@@ -326,3 +326,14 @@ errors:
    5. Первичный ключ = id + project.id
 3. Промежуточная таблица между project и user с полем permisions (пока всегда заполняется как максмальное число)
 4. Таблица Config переименована в Preset
+
+# Проектирование API
+
+Спроектированное API было частично реализовано, исходный код находится в папке `src/server`
+
+# Postman
+
+Запросы были проверены с помощью postman вручную, а также были реализованы
+тесты на статус коды.
+
+![image](./assets/postman.png)
