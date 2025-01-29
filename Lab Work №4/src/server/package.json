@@ -1,0 +1,27 @@
+{
+  "name": "resizer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/src/index.js"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.0",
+    "@zodios/core": "^10.9.6",
+    "@zodios/express": "^10.6.1",
+    "axios": "^1.7.9",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "eslint": "^9.19.0",
+    "eslint-config-prettier": "^10.0.1",
+    "prettier": "^3.4.2",
+    "typescript": "^5.5.3"
+  },
+  "private": true
+}
