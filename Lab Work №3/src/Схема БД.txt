@@ -16,7 +16,7 @@ class Project {
   +apiKey: string
 }
 
-class Config {
+class Preset {
   +alias: string + projext.alias (primary key)
   +name: string
   -description: string
@@ -25,19 +25,20 @@ class Config {
 }
 
 class Image {
-  +id: int (primary key)
-  +link: string
+  +project.alias + id: uuid (primary key)
+  -name: string
+  -description: string
 }
 
 class CroppedImage {
   +link: string
-  +config.alias + image.id (primary key)
+  +preset.alias + image.id (primary key)
 }
 
 User "1" -- "*" Project: Owns
-Project "1" -- "*" Config: Owns
+Project "1" -- "*" Preset: Owns
 Project "1" -- "*" Image: Has
 Image "1" -- "*" CroppedImage: Has
-Config"1" -- "*" CroppedImage: Has
+Preset"1" -- "*" CroppedImage: Has
 
 @enduml

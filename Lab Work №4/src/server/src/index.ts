@@ -76,7 +76,7 @@ router.get("/api/inner/v1/projects/:projectAlias", (req, res) => {
 const genKey = () =>
   new Array(16)
     .fill(0)
-    .map(() => Math.round(Math.random() * 10))
+    .map(() => Math.round(Math.random() * 9))
     .join("");
 
 let apiKey = genKey();
